@@ -22,20 +22,20 @@
 
 <div class="sidebar-group-label">Overview</div>
 <nav class="sidebar-nav">
-<div class="nav-item active">
+<div class="nav-item active" data-tab-target="overview">
 <div class="nav-item-left">
 <div class="nav-item-icon">📊</div>
 <div class="nav-item-label">Dashboard</div>
 </div>
 <span class="badge-soft">Live</span>
 </div>
-<div class="nav-item">
+<div class="nav-item" data-tab-target="posts">
 <div class="nav-item-left">
 <div class="nav-item-icon">📈</div>
 <div class="nav-item-label">Performance</div>
 </div>
 </div>
-<div class="nav-item">
+<div class="nav-item" data-tab-target="audience">
 <div class="nav-item-left">
 <div class="nav-item-icon">👥</div>
 <div class="nav-item-label">Audience</div>
@@ -45,14 +45,14 @@
 
 <div class="sidebar-group-label">Automation</div>
 <nav class="sidebar-nav">
-<div class="nav-item">
+<div class="nav-item" data-tab-target="reports">
 <div class="nav-item-left">
 <div class="nav-item-icon">⚙️</div>
 <div class="nav-item-label">Integrations</div>
 </div>
 <div class="badge-soft">Beta</div>
 </div>
-<div class="nav-item">
+<div class="nav-item" data-tab-target="reports">
 <div class="nav-item-left">
 <div class="nav-item-icon">⏱</div>
 <div class="nav-item-label">Scheduling</div>
@@ -149,7 +149,7 @@ style="display: none"
 />
 </div>
 
-<!-- Tabs -->
+<!-- Tabs (top of main area) -->
 <div class="tabs">
 <button class="tab active" data-tab="overview">Overview</button>
 <button class="tab" data-tab="posts">Posts</button>
@@ -172,7 +172,7 @@ Summary (Last 3 Months)
 Key metrics across your connected profile.
 </div>
 </div>
-<span class="tag">Demo data</span>
+<span class="tag" id="dataSourceTag">Demo data</span>
 </div>
 
 <div class="metrics-row">
@@ -240,11 +240,11 @@ Peak reach:
 <div class="card-header">
 <div class="card-title">Posts</div>
 <div class="card-subtitle">
-Coming soon: post-level insights and top performers.
+Post-level insights and top performers (placeholder).
 </div>
 </div>
 <p class="card-footer-note">
-You can still export the overall CSV & PDF from the toolbar above.
+Use Upload JSON to feed real post metrics and update this view later.
 </p>
 </div>
 </section>
@@ -254,7 +254,7 @@ You can still export the overall CSV & PDF from the toolbar above.
 <div class="card-header">
 <div class="card-title">Stories</div>
 <div class="card-subtitle">
-Future space for story-level analytics and completion rates.
+Story-level analytics and completion rates (placeholder).
 </div>
 </div>
 </div>
@@ -289,16 +289,19 @@ Generate shareable PDFs and summaries for clients.
 <div class="modal">
 <div class="modal-header">
 <div class="modal-title">
-<span class="icon-pill">✓</span> Demo login complete
+<span class="icon-pill">✓</span> Connect a social account
 </div>
 <button class="close-btn" id="closeModalBtn">&times;</button>
 </div>
 <div class="modal-body">
-You’re now connected to a demo social profile. Replace it with your own
-data any time using the <strong>Upload JSON</strong> button.
+Choose a platform to continue. You’ll be redirected to the official login
+page in a new tab.
 </div>
-<div class="modal-actions">
-<button id="modalOkBtn" class="btn btn-primary">Got it</button>
+<div class="modal-actions" style="justify-content: space-between;">
+<button id="loginX" class="btn btn-ghost">Login with X</button>
+<button id="loginInstagram" class="btn btn-ghost">Login with Instagram</button>
+<button id="loginFacebook" class="btn btn-ghost">Login with Facebook</button>
+<button id="modalOkBtn" class="btn btn-primary">Close</button>
 </div>
 </div>
 </div>
