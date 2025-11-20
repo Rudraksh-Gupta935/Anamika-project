@@ -1,386 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Social Media Analytics Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <!-- Chart.js for charts -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!-- Sidebar -->
+<aside class="sidebar">
+<div>
+<div class="sidebar-header">
+<div class="logo-circle">
+<div class="logo-inner">SM</div>
+</div>
+<div>
+<div class="sidebar-title">Social Metrics</div>
+<div class="sidebar-tagline">Unified analytics, at a glance</div>
+</div>
+</div>
 
-  
+<div class="sidebar-group-label">Overview</div>
+<nav class="sidebar-nav">
+<div class="nav-item active">
+<div class="nav-item-left">
+<div class="nav-item-icon">📊</div>
+<div class="nav-item-label">Dashboard</div>
+</div>
+<span class="badge-soft">Live</span>
+</div>
+<div class="nav-item">
+<div class="nav-item-left">
+<div class="nav-item-icon">📈</div>
+<div class="nav-item-label">Performance</div>
+</div>
+</div>
+<div class="nav-item">
+<div class="nav-item-left">
+<div class="nav-item-icon">👥</div>
+<div class="nav-item-label">Audience</div>
+</div>
+</div>
+</nav>
 
+<div class="sidebar-group-label">Automation</div>
+<nav class="sidebar-nav">
+<div class="nav-item">
+<div class="nav-item-left">
+<div class="nav-item-icon">⚙️</div>
+<div class="nav-item-label">Integrations</div>
+</div>
+<div class="badge-soft">Beta</div>
+</div>
+<div class="nav-item">
+<div class="nav-item-left">
+<div class="nav-item-icon">⏱</div>
+<div class="nav-item-label">Scheduling</div>
+</div>
+</div>
+</nav>
+</div>
 
-  <!-- Sidebar -->
-  <aside class="sidebar">
-    <div>
-      <div class="sidebar-header">
-        <div class="logo-circle">
-          <div class="logo-inner">SM</div>
-        </div>
-        <div>
-          <div class="sidebar-title">Social Metrics</div>
-          <div class="sidebar-tagline">Unified analytics, at a glance</div>
-        </div>
-      </div>
+<div class="sidebar-footer">
+<div class="pill">
+<span class="pill-dot"></span>
+Real-time sandbox
+</div>
+<div>
+<span class="status-dot"></span>
+<span>Demo profile connected</span>
+</div>
+<small>Upload your own JSON exports to see real numbers.</small>
+</div>
+</aside>
 
-      <div class="sidebar-group-label">Overview</div>
-      <nav class="sidebar-nav">
-        <div class="nav-item active">
-          <div class="nav-item-left">
-            <div class="nav-item-icon">📊</div>
-            <div class="nav-item-label">Dashboard</div>
-          </div>
-          <span class="badge-soft">Live</span>
-        </div>
-        <div class="nav-item">
-          <div class="nav-item-left">
-            <div class="nav-item-icon">📈</div>
-            <div class="nav-item-label">Performance</div>
-          </div>
-        </div>
-        <div class="nav-item">
-          <div class="nav-item-left">
-            <div class="nav-item-icon">👥</div>
-            <div class="nav-item-label">Audience</div>
-          </div>
-        </div>
-      </nav>
+<!-- Main -->
+<main class="main">
+<!-- Topbar -->
+<header class="topbar">
+<div class="topbar-left">
+<div class="page-title">Social Media Analytics</div>
+<div class="page-subtitle">
+Summary of reach, followers and engagement across the last 3 months.
+</div>
+</div>
+<div class="topbar-right">
+<div class="toggle-wrapper">
+<span>Light</span>
+<div id="themeToggle" class="toggle">
+<div class="toggle-knob"></div>
+</div>
+<span>Dark</span>
+</div>
+<div class="range-selector">
+<span class="range-label">Date range</span>
+<select id="dateRange" class="range-select">
+<option value="3">Last 3 months</option>
+<option value="6">Last 6 months</option>
+<option value="12">Last 12 months</option>
+</select>
+</div>
+</div>
+</header>
 
-      <div class="sidebar-group-label">Automation</div>
-      <nav class="sidebar-nav">
-        <div class="nav-item">
-          <div class="nav-item-left">
-            <div class="nav-item-icon">⚙️</div>
-            <div class="nav-item-label">Integrations</div>
-          </div>
-          <div class="badge-soft">Beta</div>
-        </div>
-        <div class="nav-item">
-          <div class="nav-item-left">
-            <div class="nav-item-icon">⏱</div>
-            <div class="nav-item-label">Scheduling</div>
-          </div>
-        </div>
-      </nav>
-    </div>
+<section class="content">
+<!-- Toolbar -->
+<div class="toolbar">
+<div class="brand-line">
+<span class="brand-name">Brand:</span>
+<input
+id="brandInput"
+class="brand-input"
+type="text"
+placeholder="@username"
+/>
+<span id="syncStatus" class="helper-text"
+><span class="status-dot red"></span>Not synced</span
+>
+</div>
 
-    <div class="sidebar-footer">
-      <div class="pill">
-        <span class="pill-dot"></span>
-        Real-time sandbox
-      </div>
-      <div>
-        <span class="status-dot"></span>
-        <span>Demo profile connected</span>
-      </div>
-      <small>Upload your own JSON exports to see real numbers.</small>
-    </div>
-  </aside>
+<div class="toolbar-actions">
+<button id="loginBtn" class="btn btn-primary">
+<span class="btn-icon">🔑</span>
+Login
+</button>
+<button id="uploadBtn" class="btn">
+<span class="btn-icon">📤</span>
+Upload JSON
+</button>
+<button id="exportCsvBtn" class="btn btn-ghost">
+<span class="btn-icon">📄</span>
+Export CSV
+</button>
+<button id="exportPdfBtn" class="btn btn-danger">
+<span class="btn-icon">🧾</span>
+Export PDF
+</button>
+</div>
+<!-- hidden file input for JSON -->
+<input
+type="file"
+id="jsonFileInput"
+accept="application/json"
+style="display: none"
+/>
+</div>
 
-  <!-- Main -->
-  <main class="main">
-    <!-- Topbar -->
-    <header class="topbar">
-      <div class="topbar-left">
-        <div class="page-title">Social Media Analytics</div>
-        <div class="page-subtitle">
-          Summary of reach, followers and engagement across the last 3 months.
-        </div>
-      </div>
-      <div class="topbar-right">
-        <div class="toggle-wrapper">
-          <span>Light</span>
-          <div id="themeToggle" class="toggle">
-            <div class="toggle-knob"></div>
-          </div>
-          <span>Dark</span>
-        </div>
-        <div class="range-selector">
-          <span class="range-label">Date range</span>
-          <select id="dateRange" class="range-select">
-            <option value="3">Last 3 months</option>
-            <option value="6">Last 6 months</option>
-            <option value="12">Last 12 months</option>
-          </select>
-        </div>
-      </div>
-    </header>
+<!-- Tabs -->
+<div class="tabs">
+<button class="tab active" data-tab="overview">Overview</button>
+<button class="tab" data-tab="posts">Posts</button>
+<button class="tab" data-tab="stories">Stories</button>
+<button class="tab" data-tab="audience">Audience</button>
+<button class="tab" data-tab="reports">Reports</button>
+</div>
 
-    <section class="content">
-      <!-- Toolbar -->
-      <div class="toolbar">
-        <div class="brand-line">
-          <span class="brand-name">Brand:</span>
-          <input
-            id="brandInput"
-            class="brand-input"
-            type="text"
-            placeholder="@username"
-          />
-          <span id="syncStatus" class="helper-text"
-            ><span class="status-dot red"></span>Not synced</span
-          >
-        </div>
+<!-- Tab sections -->
+<section id="overview" class="tab-section active">
+<!-- MAIN DASHBOARD CONTENT (cards etc) -->
+<!-- ...continue with your dashboard content as in your code... -->
+</section>
+<!-- Other tab sections as in your original code -->
+<!-- ... -->
+</section>
+</main>
 
-        <div class="toolbar-actions">
-          <button id="loginBtn" class="btn btn-primary">
-            <span class="btn-icon">🔑</span>
-            Login
-          </button>
-          <button id="uploadBtn" class="btn">
-            <span class="btn-icon">📤</span>
-            Upload JSON
-          </button>
-          <button id="exportCsvBtn" class="btn btn-ghost">
-            <span class="btn-icon">📄</span>
-            Export CSV
-          </button>
-          <button id="exportPdfBtn" class="btn btn-danger">
-            <span class="btn-icon">🧾</span>
-            Export PDF
-          </button>
-        </div>
-        <!-- hidden file input for JSON -->
-        <input
-          type="file"
-          id="jsonFileInput"
-          accept="application/json"
-          style="display: none"
-        />
-      </div>
+<!-- Login modal -->
+<div id="loginModal" class="modal-backdrop">
+<div class="modal">
+<div class="modal-header">
+<div class="modal-title">
+<span class="icon-pill">✓</span> Demo login complete
+</div>
+<button class="close-btn" id="closeModalBtn">&times;</button>
+</div>
+<div class="modal-body">
+You’re now connected to a demo social profile. Replace it with your own
+data any time using the <strong>Upload JSON</strong> button.
+</div>
+<div class="modal-actions">
+<button id="modalOkBtn" class="btn btn-primary">Got it</button>
+</div>
+</div>
+</div>
 
-      <!-- Tabs -->
-      <div class="tabs">
-        <button class="tab active" data-tab="overview">Overview</button>
-        <button class="tab" data-tab="posts">Posts</button>
-        <button class="tab" data-tab="stories">Stories</button>
-        <button class="tab" data-tab="audience">Audience</button>
-        <button class="tab" data-tab="reports">Reports</button>
-      </div>
-
-      <!-- Tab sections -->
-      <section id="overview" class="tab-section active">
-        <div class="grid">
-          <!-- Summary card -->
-          <div class="card">
-            <div class="card-header">
-              <div>
-                <div class="card-title">Summary (Last 3 Months)</div>
-                <div class="card-subtitle" id="lastSyncedText">
-                  Last synced: never
-                </div>
-              </div>
-              <span class="tag">All channels</span>
-            </div>
-
-            <div class="metrics-row">
-              <div class="metric">
-                <div class="metric-label">Total Reach</div>
-                <div class="metric-value">
-                  <span id="totalReach">24,100</span>
-                  <span class="metric-unit">accounts</span>
-                </div>
-                <div class="metric-trend trend-up" id="reachTrend">
-                  ▲ +14.2% vs prev
-                </div>
-              </div>
-              <div class="metric">
-                <div class="metric-label">New Followers</div>
-                <div class="metric-value">
-                  <span id="newFollowers">1,385</span>
-                  <span class="metric-unit">people</span>
-                </div>
-                <div class="metric-trend trend-up" id="followersTrend">
-                  ▲ +7.8% vs prev
-                </div>
-              </div>
-              <div class="metric">
-                <div class="metric-label">Avg Engagement Rate</div>
-                <div class="metric-value">
-                  <span id="avgEngagement">5.1</span>
-                  <span class="metric-unit">% per post</span>
-                </div>
-                <div class="metric-trend trend-down" id="engagementTrend">
-                  ▼ −0.4% vs prev
-                </div>
-              </div>
-            </div>
-
-            <p class="card-footer-note">
-              Tip: upload JSON from your social platform export to replace these
-              demo numbers.<br />
-              <span class="helper-text">
-                Expected format:
-                <code>
-{ "brand": "@yourhandle", "totalReach": 24100,
-"newFollowers": 1385, "avgEngagement": 5.1,
-"months": ["Aug","Sep","Oct"],
-"reachByMonth": [7200,8100,8800] }
-                </code>
-              </span>
-            </p>
-          </div>
-
-          <!-- Chart card -->
-          <div class="card">
-            <div class="card-header">
-              <div>
-                <div class="card-title">Reach (Last 3 Months)</div>
-                <div class="card-subtitle">
-                  Impressions and accounts reached per month.
-                </div>
-              </div>
-              <span class="tag">Reach · Impressions</span>
-            </div>
-            <div class="chart-wrap">
-              <canvas id="reachChart"></canvas>
-            </div>
-            <div class="chip-row">
-              <span class="chip">Best month: <span id="bestMonth">October</span></span>
-              <span class="chip">
-                Peak reach:
-                <span id="peakReach">8,800</span>
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Bottom cards -->
-        <div class="grid">
-          <div class="card">
-            <div class="card-header">
-              <div>
-                <div class="card-title">Top Performing Posts</div>
-                <div class="card-subtitle">
-                  Sorted by engagement rate (likes, saves, comments).
-                </div>
-              </div>
-              <span class="tag">Posts</span>
-            </div>
-            <div class="list">
-              <div class="list-item">
-                <span>🎬 Reel: “Behind the scenes…”</span>
-                <span>
-                  <span class="badge-soft">8.9% ER</span>
-                </span>
-              </div>
-              <div class="list-item">
-                <span>📸 Carousel: “Launch day recap”</span>
-                <span>
-                  <span class="badge-soft">7.4% ER</span>
-                </span>
-              </div>
-              <div class="list-item">
-                <span>📝 Post: “Feature announcement”</span>
-                <span>
-                  <span class="badge-soft">6.2% ER</span>
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-header">
-              <div>
-                <div class="card-title">Audience Snapshot</div>
-                <div class="card-subtitle">
-                  High-level view of who is engaging with your content.
-                </div>
-              </div>
-              <span class="tag">Audience</span>
-            </div>
-            <div class="list">
-              <div class="list-item">
-                <span>Top country</span>
-                <span>🇮🇳 India</span>
-              </div>
-              <div class="list-item">
-                <span>Most active time</span>
-                <span>7–10 pm IST</span>
-              </div>
-              <div class="list-item">
-                <span>Returning vs new viewers</span>
-                <span>63% returning</span>
-              </div>
-              <div class="list-item">
-                <span>Primary device</span>
-                <span>Mobile (82%)</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Other tabs (simple placeholders) -->
-      <section id="posts" class="tab-section">
-        <div class="card">
-          <div class="card-header">
-            <div>
-              <div class="card-title">Posts Breakdown</div>
-              <div class="card-subtitle">
-                Performance of individual posts: impressions, saves, CTR.
-              </div>
-            </div>
-            <span class="tag">Coming soon</span>
-          </div>
-          <p class="card-footer-note">
-            Use this section to show a table of posts, filters by platform, and
-            advanced metrics. For now it’s a placeholder so you can focus on the
-            layout and navigation.
-          </p>
-        </div>
-      </section>
-
-      <section id="stories" class="tab-section">
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">Stories Performance</div>
-            <span class="tag">Stories</span>
-          </div>
-          <p class="card-footer-note">
-            Story reach, completion rate, and drop-off by frame would be
-            displayed here.
-          </p>
-        </div>
-      </section>
-
-      <section id="audience" class="tab-section">
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">Audience Insights</div>
-            <span class="tag">Audience</span>
-          </div>
-          <p class="card-footer-note">
-            Add charts for age, gender, location and device type here. Reuse the
-            same card & chart pattern as the overview.
-          </p>
-        </div>
-      </section>
-
-      <section id="reports" class="tab-section">
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">Reports & Exports</div>
-            <span class="tag">Exports</span>
-          </div>
-          <p class="card-footer-note">
-            Attach PDFs or sharable report links here. The “Export CSV/PDF”
-            buttons already give you basic functionality.
-          </p>
-        </div>
-      </section>
-    </section>
-  </main>
-
-  <!-- Login modal -->
-  <div id="loginModal" class="modal-backdrop">
-    <div class="modal">
-      <div class="modal-header">
-        <div class="modal-title">
-          <span class="icon-pill">✓</span> Demo login complete
-        </div>
-        <button class="close-btn" id="closeModalBtn">&times;</button>
-      </div>
-      <div class="modal-body">
-        You’re now connected to a demo social profile. Replace it with your own
-        data any time using the <strong>Upload JSON</strong> button.
-      </div>
-      <div class="modal-actions">
-        <button id="modalOkBtn" class="btn btn-primary">Got it</button>
-      </div>
-    </div>
-  </div>
+<script src="script.js"></script>
+</body>
+</html>
