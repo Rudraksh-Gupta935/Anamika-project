@@ -1,313 +1,314 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<title>Social Media Analytics Dashboard</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8" />
+  <title>Social Media Analytics Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-<!-- Sidebar -->
-<aside class="sidebar">
-<div>
-<div class="sidebar-header">
-<div class="logo-circle">
-<div class="logo-inner">SM</div>
-</div>
-<div>
-<div class="sidebar-title">Social Metrics</div>
-<div class="sidebar-tagline">Unified analytics, at a glance</div>
-</div>
-</div>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div>
+      <div class="sidebar-header">
+        <div class="logo-circle">
+          <div class="logo-inner">SM</div>
+        </div>
+        <div>
+          <div class="sidebar-title">Social Metrics</div>
+          <div class="sidebar-tagline">Unified analytics, at a glance</div>
+        </div>
+      </div>
 
-<div class="sidebar-group-label">Overview</div>
-<nav class="sidebar-nav">
-<div class="nav-item active" data-tab-target="overview">
-<div class="nav-item-left">
-<div class="nav-item-icon">📊</div>
-<div class="nav-item-label">Dashboard</div>
-</div>
-<span class="badge-soft">Live</span>
-</div>
-<div class="nav-item" data-tab-target="posts">
-<div class="nav-item-left">
-<div class="nav-item-icon">📈</div>
-<div class="nav-item-label">Performance</div>
-</div>
-</div>
-<div class="nav-item" data-tab-target="audience">
-<div class="nav-item-left">
-<div class="nav-item-icon">👥</div>
-<div class="nav-item-label">Audience</div>
-</div>
-</div>
-</nav>
+      <div class="sidebar-group-label">Overview</div>
+      <nav class="sidebar-nav">
+        <div class="nav-item active" data-tab-target="overview">
+          <div class="nav-item-left">
+            <div class="nav-item-icon">📊</div>
+            <div class="nav-item-label">Dashboard</div>
+          </div>
+          <span class="badge-soft">Live</span>
+        </div>
+        <div class="nav-item" data-tab-target="posts">
+          <div class="nav-item-left">
+            <div class="nav-item-icon">📈</div>
+            <div class="nav-item-label">Performance</div>
+          </div>
+        </div>
+        <div class="nav-item" data-tab-target="audience">
+          <div class="nav-item-left">
+            <div class="nav-item-icon">👥</div>
+            <div class="nav-item-label">Audience</div>
+          </div>
+        </div>
+      </nav>
 
-<div class="sidebar-group-label">Automation</div>
-<nav class="sidebar-nav">
-<div class="nav-item" data-tab-target="reports">
-<div class="nav-item-left">
-<div class="nav-item-icon">⚙️</div>
-<div class="nav-item-label">Integrations</div>
-</div>
-<div class="badge-soft">Beta</div>
-</div>
-<div class="nav-item" data-tab-target="reports">
-<div class="nav-item-left">
-<div class="nav-item-icon">⏱</div>
-<div class="nav-item-label">Scheduling</div>
-</div>
-</div>
-</nav>
-</div>
+      <div class="sidebar-group-label">Automation</div>
+      <nav class="sidebar-nav">
+        <div class="nav-item" data-tab-target="reports">
+          <div class="nav-item-left">
+            <div class="nav-item-icon">⚙️</div>
+            <div class="nav-item-label">Integrations</div>
+          </div>
+          <div class="badge-soft">Beta</div>
+        </div>
+        <div class="nav-item" data-tab-target="reports">
+          <div class="nav-item-left">
+            <div class="nav-item-icon">⏱</div>
+            <div class="nav-item-label">Scheduling</div>
+          </div>
+        </div>
+      </nav>
+    </div>
 
-<div class="sidebar-footer">
-<div class="pill">
-<span class="pill-dot"></span>
-Real-time sandbox
-</div>
-<div>
-<span id="connectionDot" class="status-dot"></span>
-<span id="connectionLabel">Demo profile connected</span>
-</div>
-<small>Upload your own JSON exports to see real numbers.</small>
-</div>
-</aside>
+    <div class="sidebar-footer">
+      <div class="pill">
+        <span class="pill-dot"></span>
+        Real-time sandbox
+      </div>
+      <div>
+        <!-- IDs used by script.js -->
+        <span id="connectionDot" class="status-dot"></span>
+        <span id="connectionLabel">Demo profile connected</span>
+      </div>
+      <small>Upload your own JSON exports to see real numbers.</small>
+    </div>
+  </aside>
 
-<!-- Main -->
-<main class="main">
-<!-- Topbar -->
-<header class="topbar">
-<div class="topbar-left">
-<div class="page-title">Social Media Analytics</div>
-<div class="page-subtitle">
-Summary of reach, followers and engagement across the last 3 months.
-</div>
-</div>
-<div class="topbar-right">
-<div class="toggle-wrapper">
-<span>Light</span>
-<div id="themeToggle" class="toggle">
-<div class="toggle-knob"></div>
-</div>
-<span>Dark</span>
-</div>
-<div class="range-selector">
-<span class="range-label">Date range</span>
-<select id="dateRange" class="range-select">
-<option value="3">Last 3 months</option>
-<option value="6">Last 6 months</option>
-<option value="12">Last 12 months</option>
-</select>
-</div>
-</div>
-</header>
+  <!-- Main -->
+  <main class="main">
+    <!-- Topbar -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <div class="page-title">Social Media Analytics</div>
+        <div class="page-subtitle">
+          Summary of reach, followers and engagement across the last 3 months.
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="toggle-wrapper">
+          <span>Light</span>
+          <div id="themeToggle" class="toggle">
+            <div class="toggle-knob"></div>
+          </div>
+          <span>Dark</span>
+        </div>
+        <div class="range-selector">
+          <span class="range-label">Date range</span>
+          <select id="dateRange" class="range-select">
+            <option value="3">Last 3 months</option>
+            <option value="6">Last 6 months</option>
+            <option value="12">Last 12 months</option>
+          </select>
+        </div>
+      </div>
+    </header>
 
-<section class="content">
-<!-- Toolbar -->
-<div class="toolbar">
-<div>
-<div class="brand-line">
-<span class="brand-name">Brand:</span>
-<input
-id="brandInput"
-class="brand-input"
-type="text"
-placeholder="@username"
-/>
-</div>
-<div class="helper-text" id="syncStatus">
-<span class="status-dot red"></span>Not synced
-</div>
-</div>
+    <section class="content">
+      <!-- Toolbar -->
+      <div class="toolbar">
+        <div>
+          <div class="brand-line">
+            <span class="brand-name">Brand:</span>
+            <input
+              id="brandInput"
+              class="brand-input"
+              type="text"
+              placeholder="@username"
+            />
+          </div>
+          <div class="helper-text" id="syncStatus">
+            <span class="status-dot red"></span>Not synced
+          </div>
+        </div>
 
-<div class="toolbar-actions">
-<button id="loginBtn" class="btn btn-primary">
-<span class="btn-icon">🔑</span>
-Login
-</button>
-<button id="uploadBtn" class="btn">
-<span class="btn-icon">📤</span>
-Upload JSON
-</button>
-<button id="exportCsvBtn" class="btn btn-ghost">
-<span class="btn-icon">📄</span>
-Export CSV
-</button>
-<button id="exportPdfBtn" class="btn btn-danger">
-<span class="btn-icon">🧾</span>
-Export PDF
-</button>
-</div>
+        <div class="toolbar-actions">
+          <button id="loginBtn" class="btn btn-primary">
+            <span class="btn-icon">🔑</span>
+            Login
+          </button>
+          <button id="uploadBtn" class="btn">
+            <span class="btn-icon">📤</span>
+            Upload JSON
+          </button>
+          <button id="exportCsvBtn" class="btn btn-ghost">
+            <span class="btn-icon">📄</span>
+            Export CSV
+          </button>
+          <button id="exportPdfBtn" class="btn btn-danger">
+            <span class="btn-icon">🧾</span>
+            Export PDF
+          </button>
+        </div>
 
-<!-- hidden file input for JSON -->
-<input
-type="file"
-id="jsonFileInput"
-accept="application/json"
-style="display: none"
-/>
-</div>
+        <!-- hidden file input for JSON -->
+        <input
+          type="file"
+          id="jsonFileInput"
+          accept="application/json"
+          style="display: none"
+        />
+      </div>
 
-<!-- Tabs (top of main area) -->
-<div class="tabs">
-<button class="tab active" data-tab="overview">Overview</button>
-<button class="tab" data-tab="posts">Posts</button>
-<button class="tab" data-tab="stories">Stories</button>
-<button class="tab" data-tab="audience">Audience</button>
-<button class="tab" data-tab="reports">Reports</button>
-</div>
+      <!-- Tabs (top of main area) -->
+      <div class="tabs">
+        <button class="tab active" data-tab="overview">Overview</button>
+        <button class="tab" data-tab="posts">Posts</button>
+        <button class="tab" data-tab="stories">Stories</button>
+        <button class="tab" data-tab="audience">Audience</button>
+        <button class="tab" data-tab="reports">Reports</button>
+      </div>
 
-<!-- Tab sections -->
-<section id="overview" class="tab-section active">
-<div class="grid">
-<!-- Summary card -->
-<div class="card">
-<div class="card-header">
-<div>
-<div class="card-title" id="summaryTitle">
-Summary (Last 3 Months)
-</div>
-<div class="card-subtitle">
-Key metrics across your connected profile.
-</div>
-</div>
-<span class="tag" id="dataSourceTag">Demo data</span>
-</div>
+      <!-- Tab sections -->
+      <section id="overview" class="tab-section active">
+        <div class="grid">
+          <!-- Summary card -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title" id="summaryTitle">
+                  Summary (Last 3 Months)
+                </div>
+                <div class="card-subtitle">
+                  Key metrics across your connected profile.
+                </div>
+              </div>
+              <span class="tag" id="dataSourceTag">Demo data</span>
+            </div>
 
-<div class="metrics-row">
-<div class="metric">
-<div class="metric-label">Total Reach</div>
-<div class="metric-value">
-<span id="totalReach">25,100</span>
-</div>
-<div class="metric-trend trend-up" id="reachTrend">
-▲ +4.2% vs prev
-</div>
-</div>
-<div class="metric">
-<div class="metric-label">New Followers</div>
-<div class="metric-value">
-<span id="totalFollowers">1,250</span>
-</div>
-<div class="metric-trend trend-up" id="followersTrend">
-▲ +2.8% vs prev
-</div>
-</div>
-<div class="metric">
-<div class="metric-label">Avg Engagement Rate</div>
-<div class="metric-value">
-<span id="avgEngagement">3.4</span>
-<span class="metric-unit">%</span>
-</div>
-<div class="metric-trend trend-up" id="engagementTrend">
-▲ +0.6 pts vs prev
-</div>
-</div>
-</div>
+            <div class="metrics-row">
+              <div class="metric">
+                <div class="metric-label">Total Reach</div>
+                <div class="metric-value">
+                  <span id="totalReach">25,100</span>
+                </div>
+                <div class="metric-trend trend-up" id="reachTrend">
+                  ▲ +4.2% vs prev
+                </div>
+              </div>
+              <div class="metric">
+                <div class="metric-label">New Followers</div>
+                <div class="metric-value">
+                  <span id="totalFollowers">1,250</span>
+                </div>
+                <div class="metric-trend trend-up" id="followersTrend">
+                  ▲ +2.8% vs prev
+                </div>
+              </div>
+              <div class="metric">
+                <div class="metric-label">Avg Engagement Rate</div>
+                <div class="metric-value">
+                  <span id="avgEngagement">3.4</span>
+                  <span class="metric-unit">%</span>
+                </div>
+                <div class="metric-trend trend-up" id="engagementTrend">
+                  ▲ +0.6 pts vs prev
+                </div>
+              </div>
+            </div>
 
-<div class="card-footer-note" id="lastSync">
-Last synced: demo
-</div>
-</div>
+            <div class="card-footer-note" id="lastSync">
+              Last synced: demo
+            </div>
+          </div>
 
-<!-- Chart card -->
-<div class="card">
-<div class="card-header">
-<div>
-<div class="card-title">Reach by month</div>
-<div class="card-subtitle">
-Hover over the line to inspect values.
-</div>
-</div>
-<span class="tag">Best: <span id="bestMonth">October</span></span>
-</div>
+          <!-- Chart card -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Reach by month</div>
+                <div class="card-subtitle">
+                  Hover over the line to inspect values.
+                </div>
+              </div>
+              <span class="tag">Best: <span id="bestMonth">October</span></span>
+            </div>
 
-<div class="chart-wrap">
-<canvas id="reachChart"></canvas>
-</div>
+            <div class="chart-wrap">
+              <canvas id="reachChart"></canvas>
+            </div>
 
-<div class="card-footer-note">
-Peak reach:
-<strong id="peakReach">8,800</strong>
-</div>
-</div>
-</div>
-</section>
+            <div class="card-footer-note">
+              Peak reach:
+              <strong id="peakReach">8,800</strong>
+            </div>
+          </div>
+        </div>
+      </section>
 
-<section id="posts" class="tab-section">
-<div class="card">
-<div class="card-header">
-<div class="card-title">Posts</div>
-<div class="card-subtitle">
-Post-level insights and top performers (placeholder).
-</div>
-</div>
-<p class="card-footer-note">
-Use Upload JSON to feed real post metrics and update this view later.
-</p>
-</div>
-</section>
+      <section id="posts" class="tab-section">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Posts</div>
+            <div class="card-subtitle">
+              Post-level insights and top performers (placeholder).
+            </div>
+          </div>
+          <p class="card-footer-note">
+            Use Upload JSON to feed real post metrics and update this view later.
+          </p>
+        </div>
+      </section>
 
-<section id="stories" class="tab-section">
-<div class="card">
-<div class="card-header">
-<div class="card-title">Stories</div>
-<div class="card-subtitle">
-Story-level analytics and completion rates (placeholder).
-</div>
-</div>
-</div>
-</section>
+      <section id="stories" class="tab-section">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Stories</div>
+            <div class="card-subtitle">
+              Story-level analytics and completion rates (placeholder).
+            </div>
+          </div>
+        </div>
+      </section>
 
-<section id="audience" class="tab-section">
-<div class="card">
-<div class="card-header">
-<div class="card-title">Audience</div>
-<div class="card-subtitle">
-Demographics and audience breakdown will appear here.
-</div>
-</div>
-</div>
-</section>
+      <section id="audience" class="tab-section">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Audience</div>
+            <div class="card-subtitle">
+              Demographics and audience breakdown will appear here.
+            </div>
+          </div>
+        </div>
+      </section>
 
-<section id="reports" class="tab-section">
-<div class="card">
-<div class="card-header">
-<div class="card-title">Reports</div>
-<div class="card-subtitle">
-Generate shareable PDFs and summaries for clients.
-</div>
-</div>
-</div>
-</section>
-</section>
-</main>
+      <section id="reports" class="tab-section">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Reports</div>
+            <div class="card-subtitle">
+              Generate shareable PDFs and summaries for clients.
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
 
-<!-- Login modal -->
-<div id="loginModal" class="modal-backdrop">
-<div class="modal">
-<div class="modal-header">
-<div class="modal-title">
-<span class="icon-pill">✓</span> Connect a social account
-</div>
-<button class="close-btn" id="closeModalBtn">&times;</button>
-</div>
-<div class="modal-body">
-Choose a platform to continue. You’ll be redirected to the official login
-page in a new tab.
-</div>
-<div class="modal-actions" style="justify-content: space-between;">
-<button id="loginX" class="btn btn-ghost">Login with X</button>
-<button id="loginInstagram" class="btn btn-ghost">Login with Instagram</button>
-<button id="loginFacebook" class="btn btn-ghost">Login with Facebook</button>
-<button id="modalOkBtn" class="btn btn-primary">Close</button>
-</div>
-</div>
-</div>
+  <!-- Login modal -->
+  <div id="loginModal" class="modal-backdrop">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span class="icon-pill">✓</span> Connect a social account
+        </div>
+        <button class="close-btn" id="closeModalBtn">&times;</button>
+      </div>
+      <div class="modal-body">
+        Choose a platform to continue. You’ll be redirected to the official login
+        page in a new tab.
+      </div>
+      <div class="modal-actions" style="justify-content: space-between;">
+        <button id="loginX" class="btn btn-ghost">Login with X</button>
+        <button id="loginInstagram" class="btn btn-ghost">Login with Instagram</button>
+        <button id="loginFacebook" class="btn btn-ghost">Login with Facebook</button>
+        <button id="modalOkBtn" class="btn btn-primary">Close</button>
+      </div>
+    </div>
+  </div>
 
-<!-- JS libraries + main script -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="script.js"></script>
+  <!-- JS libraries + main script -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
