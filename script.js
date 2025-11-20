@@ -12,21 +12,40 @@ bodyEl.classList.toggle("dark");
 }
 
 // -------------------------
-// Tabs
+// Tabs (top tabs)
 // -------------------------
 const tabButtons = document.querySelectorAll(".tab");
 const tabSections = document.querySelectorAll(".tab-section");
 
+function activateTab(tabId) {
+tabButtons.forEach((b) => {
+if (b.dataset.tab === tabId) b.classList.add("active");
+else b.classList.remove("active");
+});
+tabSections.forEach((s) => {
+if (s.id === tabId) s.classList.add("active");
+else s.classList.remove("active");
+});
+}
+
 tabButtons.forEach((btn) => {
 btn.addEventListener("click", () => {
-const target = btn.dataset.tab;
+activateTab(btn.dataset.tab);
+});
+});
 
-tabButtons.forEach((b) => b.classList.remove("active"));
-tabSections.forEach((s) => s.classList.remove("active"));
+// -------------------------
+// Sidebar nav -> tabs
+// -------------------------
+const sideItems = document.querySelectorAll(".nav-item");
 
-btn.classList.add("active");
-const targetSection = document.getElementById(target);
-if (targetSection) targetSection.classList.add("active");
+sideItems.forEach((item) => {
+item.addEventListener("click", () => {
+sideItems.forEach((i) => i.classList.remove("active"));
+item.classList.add("active");
+
+const target = item.dataset.tabTarget;
+if (target) activateTab(target);
 });
 });
 
@@ -39,6 +58,27 @@ let reachData = {
 months: ["August", "September", "October"],
 values: [7200, 8100, 8800],
 };
+
+function updateChartFromData() {
+if (!reachChart) return;
+
+reachChart.data.labels = reachData.months;
+reachChart.data.datasets[0].data = reachData.values;
+reachChart.update();
+
+const maxVal = Math.max.apply(null, reachData.values);
+const maxIndex = reachData.values.indexOf(maxVal);
+
+const bestMonthEl = document.getElementById("bestMonth");
+const peakReachEl = document.getElementById("peakReach");
+
+if (bestMonthEl && maxIndex >= 0) {
+bestMonthEl.textContent = reachData.months[maxIndex];
+}
+if (peakReachEl && maxIndex >= 0) {
+peakReachEl.textContent = reachData.values[maxIndex].toLocaleString();
+}
+}
 
 function initChart() {
 if (!reachCanvas || !window.Chart) return;
@@ -83,31 +123,10 @@ return value.toLocaleString();
 updateChartFromData();
 }
 
-function updateChartFromData() {
-if (!reachChart) return;
-
-reachChart.data.labels = reachData.months;
-reachChart.data.datasets[0].data = reachData.values;
-reachChart.update();
-
-const maxVal = Math.max.apply(null, reachData.values);
-const maxIndex = reachData.values.indexOf(maxVal);
-
-const bestMonthEl = document.getElementById("bestMonth");
-const peakReachEl = document.getElementById("peakReach");
-
-if (bestMonthEl && maxIndex >= 0) {
-bestMonthEl.textContent = reachData.months[maxIndex];
-}
-if (peakReachEl && maxIndex >= 0) {
-peakReachEl.textContent = reachData.values[maxIndex].toLocaleString();
-}
-}
-
 initChart();
 
 // -------------------------
-// Login modal & sync
+// Login modal & social redirects
 // -------------------------
 const loginBtn = document.getElementById("loginBtn");
 const loginModal = document.getElementById("loginModal");
@@ -115,8 +134,9 @@ const closeModalBtn = document.getElementById("closeModalBtn");
 const modalOkBtn = document.getElementById("modalOkBtn");
 const syncStatus = document.getElementById("syncStatus");
 const lastSyncEl = document.getElementById("lastSync");
+const dataSourceTag = document.getElementById("dataSourceTag");
 
-function setSynced() {
+function setSynced(label) {
 const now = new Date();
 const prettyTime = now.toLocaleTimeString([], {
 hour: "2-digit",
@@ -128,7 +148,9 @@ lastSyncEl.textContent = "Last synced: " + prettyTime;
 }
 if (syncStatus) {
 syncStatus.innerHTML =
-'<span class="status-dot"></span>Synced (demo)';
+'<span class="status-dot"></span>Synced (' +
+(label || "demo") +
+")";
 }
 }
 
@@ -142,7 +164,6 @@ if (loginModal) loginModal.style.display = "none";
 
 if (loginBtn) {
 loginBtn.addEventListener("click", () => {
-setSynced();
 openModal();
 });
 }
@@ -160,28 +181,55 @@ closeModal();
 });
 }
 
+// Social login buttons – open official login pages in new tab
+const loginX = document.getElementById("loginX");
+const loginInstagram = document.getElementById("loginInstagram");
+const loginFacebook = document.getElementById("loginFacebook");
+
+if (loginX) {
+loginX.addEventListener("click", () => {
+window.open("https://x.com/i/flow/login", "_blank");
+setSynced("X");
+});
+}
+if (loginInstagram) {
+loginInstagram.addEventListener("click", () => {
+window.open("https://www.instagram.com/accounts/login/", "_blank");
+setSynced("Instagram");
+});
+}
+if (loginFacebook) {
+loginFacebook.addEventListener("click", () => {
+window.open("https://www.facebook.com/login", "_blank");
+setSynced("Facebook");
+});
+}
+
+// -------------------------
+// Brand field – open profile on Enter
+// -------------------------
+const brandInput = document.getElementById("brandInput");
+if (brandInput) {
+brandInput.addEventListener("keydown", (e) => {
+if (e.key === "Enter") {
+const raw = brandInput.value.trim();
+if (!raw) return;
+const handle = raw.startsWith("@") ? raw.slice(1) : raw;
+
+// default: Instagram profile
+window.open("https://www.instagram.com/" + encodeURIComponent(handle), "_blank");
+}
+});
+}
+
 // -------------------------
 // Upload JSON – update metrics + chart
 // -------------------------
 const uploadBtn = document.getElementById("uploadBtn");
 const jsonFileInput = document.getElementById("jsonFileInput");
-const brandInput = document.getElementById("brandInput");
 
-if (uploadBtn && jsonFileInput) {
-uploadBtn.addEventListener("click", () => {
-jsonFileInput.click();
-});
-
-jsonFileInput.addEventListener("change", (event) => {
-const file = event.target.files[0];
-if (!file) return;
-
-const reader = new FileReader();
-reader.onload = function (e) {
-try {
-const data = JSON.parse(e.target.result);
-
-// Brand
+function applySimpleJson(data) {
+// brand
 if (data.brand && brandInput) {
 brandInput.value = data.brand;
 }
@@ -253,8 +301,66 @@ values: data.reachByMonth,
 };
 updateChartFromData();
 }
+}
 
-setSynced();
+function applySampleDataJson(data) {
+// structure like your original sampleData { meta, summary, months, ... }
+if (data.summary) {
+const totalReachEl = document.getElementById("totalReach");
+const totalFollowersEl = document.getElementById("totalFollowers");
+if (totalReachEl && typeof data.summary.reach === "number") {
+totalReachEl.textContent = data.summary.reach.toLocaleString();
+}
+if (
+totalFollowersEl &&
+typeof data.summary.new_followers === "number"
+) {
+totalFollowersEl.textContent =
+data.summary.new_followers.toLocaleString();
+}
+}
+if (data.months && Array.isArray(data.months) && data.months.length > 0) {
+reachData = {
+months: data.months.map((m) => m.label),
+values: data.months.map((m) => m.reach),
+};
+// average engagement
+const avg =
+data.months.reduce((s, m) => s + (m.engagement_rate || 0), 0) /
+data.months.length;
+const avgEl = document.getElementById("avgEngagement");
+if (avgEl) avgEl.textContent = avg.toFixed(1);
+
+updateChartFromData();
+}
+}
+
+if (uploadBtn && jsonFileInput) {
+uploadBtn.addEventListener("click", () => {
+jsonFileInput.click();
+});
+
+jsonFileInput.addEventListener("change", (event) => {
+const file = event.target.files[0];
+if (!file) return;
+
+const reader = new FileReader();
+reader.onload = function (e) {
+try {
+const data = JSON.parse(e.target.result);
+
+// detect format
+if (data && data.summary && data.months) {
+applySampleDataJson(data);
+} else {
+applySimpleJson(data);
+}
+
+if (dataSourceTag) {
+dataSourceTag.textContent = "From JSON file";
+}
+setSynced("JSON");
+
 alert("Dashboard updated from JSON file.");
 } catch (err) {
 console.error(err);
@@ -281,11 +387,11 @@ const rows = [
 ["Metric", "Value"],
 ["Brand", (brandInput && brandInput.value) || "@demo_profile"],
 [
-"Total Reach (3 months)",
+"Total Reach (period)",
 totalReachEl ? totalReachEl.textContent : "",
 ],
 [
-"New Followers (3 months)",
+"New Followers (period)",
 totalFollowersEl ? totalFollowersEl.textContent : "",
 ],
 [
